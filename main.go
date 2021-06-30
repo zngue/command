@@ -23,8 +23,6 @@ func main() {
 		commands := engine.Group("command")
 		commands.POST("shell", func(c *gin.Context) {
 
-			//token := c.Request.Header.Get("X-Gitee-Token")
-
 			query := c.DefaultQuery("typeName", "")
 			if query == "" {
 				c.JSON(200, gin.H{
