@@ -13,7 +13,6 @@ import (
 
 func main() {
 
-
 	if conErr := pkg.NewConfig(); conErr != nil {
 		log.Fatal(conErr)
 		return
@@ -23,24 +22,27 @@ func main() {
 		commands := engine.Group("command")
 		commands.GET("shell", func(c *gin.Context) {
 			query := c.DefaultQuery("typeName", "")
-			if query=="" {
-				c.JSON(200,gin.H{
-					"code":100,
+			if query == "" {
+				c.JSON(200, gin.H{
+					"code": 100,
 				})
+				return
 			}
 			command := fmt.Sprintf("./%s.sh ", query)
 			cmd := exec.Command("/bin/bash", "-c", command)
 			output, err := cmd.Output()
-			if err!=nil {
-				c.JSON(200,gin.H{
-					"code":100,
-					"message":err.Error(),
+			if err != nil {
+				c.JSON(200, gin.H{
+					"code":    100,
+					"message": err.Error(),
 				})
-			}else{
-				c.JSON(200,gin.H{
-					"code":100,
-					"message":string(output),
+				return
+			} else {
+				c.JSON(200, gin.H{
+					"code":    200,
+					"message": string(output),
 				})
+				return
 			}
 		})
 	})
@@ -58,8 +60,4 @@ func main() {
 		return run.Shutdown(ctx)
 	})
 
-
 }
-
-
-
