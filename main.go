@@ -2,6 +2,7 @@ package main
 
 import (
 	"context"
+	"encoding/json"
 	"fmt"
 	"github.com/gin-gonic/gin"
 	"github.com/spf13/viper"
@@ -25,6 +26,8 @@ func main() {
 
 		commands.POST("shell", func(c *gin.Context) {
 			all, _ := ioutil.ReadAll(c.Request.Body)
+			m := make(map[string]interface{})
+			json.Unmarshal(all, &m)
 			query := c.DefaultQuery("typeName", "")
 			if query == "" {
 				c.JSON(200, gin.H{
@@ -45,7 +48,7 @@ func main() {
 				c.JSON(200, gin.H{
 					"code":    200,
 					"message": string(output),
-					"data":    string(all),
+					"data":    m,
 				})
 				return
 			}
