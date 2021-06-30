@@ -7,6 +7,7 @@ import (
 	"github.com/spf13/viper"
 	"github.com/zngue/go_helper/pkg"
 	"github.com/zngue/go_helper/pkg/sign_chan"
+	"io/ioutil"
 	"log"
 	"os/exec"
 )
@@ -22,7 +23,7 @@ func main() {
 
 		commands := engine.Group("command")
 		commands.POST("shell", func(c *gin.Context) {
-
+			all, _ := ioutil.ReadAll(c.Request.Body)
 			query := c.DefaultQuery("typeName", "")
 			if query == "" {
 				c.JSON(200, gin.H{
@@ -43,6 +44,7 @@ func main() {
 				c.JSON(200, gin.H{
 					"code":    200,
 					"message": string(output),
+					"data":    string(all),
 				})
 				return
 			}
