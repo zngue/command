@@ -28,7 +28,7 @@ func main() {
 				})
 				return
 			}
-			command := fmt.Sprintf("./%s.sh ", query)
+			command := fmt.Sprintf("./shell/%s.sh ", query)
 			cmd := exec.Command("/bin/bash", "-c", command)
 			output, err := cmd.Output()
 			if err != nil {
