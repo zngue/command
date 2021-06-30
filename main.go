@@ -19,6 +19,7 @@ func main() {
 	}
 	port := viper.GetString("AppPort")
 	run, errs := pkg.GinRun(port, func(engine *gin.Engine) {
+
 		commands := engine.Group("command")
 		commands.POST("shell", func(c *gin.Context) {
 
