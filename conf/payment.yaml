@@ -1,0 +1,7 @@
+payment:
+  appkey: 6e684e2dd1fd541cc1a675aef8c0e21b
+  appid: zngd1fd541cc1a675ae
+  notify_url: https://pay.zngue.com/carmichael/zngOrder/notify
+  return_url: https://pay.zngue.com/weixin/user/order
+  createUrl: https://pay.zngue.com/payment/createOrder
+  paymentUrl: https://pay.zngue.com/weixin/pay

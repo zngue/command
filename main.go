@@ -1,0 +1,65 @@
+package main
+
+import (
+	"context"
+	"fmt"
+	"github.com/gin-gonic/gin"
+	"github.com/spf13/viper"
+	"github.com/zngue/go_helper/pkg"
+	"github.com/zngue/go_helper/pkg/sign_chan"
+	"log"
+	"os/exec"
+)
+
+func main() {
+
+
+	if conErr := pkg.NewConfig(); conErr != nil {
+		log.Fatal(conErr)
+		return
+	}
+	port := viper.GetString("AppPort")
+	run, errs := pkg.GinRun(port, func(engine *gin.Engine) {
+		commands := engine.Group("command")
+		commands.GET("shell", func(c *gin.Context) {
+			query := c.DefaultQuery("typeName", "")
+			if query=="" {
+				c.JSON(200,gin.H{
+					"code":100,
+				})
+			}
+			command := fmt.Sprintf("./%s.sh ", query)
+			cmd := exec.Command("/bin/bash", "-c", command)
+			output, err := cmd.Output()
+			if err!=nil {
+				c.JSON(200,gin.H{
+					"code":100,
+					"message":err.Error(),
+				})
+			}else{
+				c.JSON(200,gin.H{
+					"code":100,
+					"message":string(output),
+				})
+			}
+		})
+	})
+	if errs != nil {
+		sign_chan.SignLog(errs)
+	}
+	go func() {
+		err := run.ListenAndServe()
+		if err != nil {
+			sign_chan.SignLog(err)
+		}
+	}()
+	sign_chan.SignChalNotify()
+	sign_chan.ListClose(func(ctx context.Context) error {
+		return run.Shutdown(ctx)
+	})
+
+
+}
+
+
+

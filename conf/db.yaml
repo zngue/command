@@ -1,0 +1,22 @@
+db:
+    HOST: 115.159.145.198 #127.0.0.1
+    PORT: 3306
+    DATABASE: shop
+    PREFIX:
+    USERNAME: zngue #root
+    PASSWORD: zz123456@ #root
+    TIMEZONE: Asia/Shanghai
+    DEBUG:   true
+    CHARSET: utf8mb4
+    ParseTime: True
+REDIS:
+    HOST: 127.0.0.1
+    PASSWORD:
+    PORT: 6379
+    DBNUM: 9
+    DialTimeout: 10
+    ReadTimeout: 30
+    WriteTimeout: 30
+    PoolSize: 30
+    PoolTimeout: 30
+    MinIdleConns: 30

@@ -1,0 +1,10 @@
+temp:
+    path: app
+    modepath: github.com/zngue/carmichael
+    servicepath: service
+    routerpath: router
+    modelpath: model
+    pbpath: pb
+    controllerpath: controller
+    requestpath: request
+    pbCode: false #是否生成pb文件
