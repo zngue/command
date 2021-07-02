@@ -5,12 +5,14 @@ import (
 	"encoding/json"
 	"fmt"
 	"github.com/gin-gonic/gin"
+	"github.com/spf13/cast"
 	"github.com/spf13/viper"
 	"github.com/zngue/go_helper/pkg"
 	"github.com/zngue/go_helper/pkg/sign_chan"
 	"io/ioutil"
 	"log"
 	"os/exec"
+	"strings"
 )
 
 func main() {
@@ -26,8 +28,7 @@ func main() {
 
 		commands.POST("shell", func(c *gin.Context) {
 			all, _ := ioutil.ReadAll(c.Request.Body)
-			var m interface{}
-
+			m := make(map[string]interface{})
 			json.Unmarshal(all, &m)
 			query := c.DefaultQuery("typeName", "")
 			if query == "" {
@@ -35,6 +36,12 @@ func main() {
 					"code": 100,
 				})
 				return
+			}
+			if ref, ok := m["ref"]; ok {
+				refArr := strings.Split(cast.ToString(ref), "/")
+				if len(refArr) >= 3 {
+					query = refArr[2] + "_" + query
+				}
 			}
 			command := fmt.Sprintf("./shell/%s.sh ", query)
 			cmd := exec.Command("/bin/bash", "-c", command)
@@ -49,7 +56,7 @@ func main() {
 				c.JSON(200, gin.H{
 					"code":    200,
 					"message": string(output),
-					"data":    m,
+					"data":    m["ref"],
 				})
 				return
 			}
