@@ -1,4 +1,4 @@
-module github.com/zngue/carmichael
+module github.com/zngue/command
 
 go 1.16
 
