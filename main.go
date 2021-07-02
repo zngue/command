@@ -27,6 +27,7 @@ func main() {
 		commands.POST("shell", func(c *gin.Context) {
 			all, _ := ioutil.ReadAll(c.Request.Body)
 			var m interface{}
+
 			json.Unmarshal(all, &m)
 			query := c.DefaultQuery("typeName", "")
 			if query == "" {
