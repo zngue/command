@@ -33,6 +33,7 @@ func main() {
 				})
 				return
 			}
+			fmt.Println(query)
 			/*
 				if ref, ok := m["ref"]; ok {
 					refArr := strings.Split(cast.ToString(ref), "/")
